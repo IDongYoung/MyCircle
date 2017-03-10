@@ -22,7 +22,7 @@ public class client {
     // 登陆
     public String login(String email,String password)
     {
-
+        iService.send("2|"+email+"|"+password);
         return "";
     }
     // 创建班级

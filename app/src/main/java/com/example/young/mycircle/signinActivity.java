@@ -54,11 +54,11 @@ public class signinActivity extends Activity implements View.OnClickListener
                 @Override
                 public void run()
                 {
-                    client c = new client();
-                    int r = c.regist(name,email,"15542339529",address,"2018");
+                    /*client c = new client();
+                    String r = c.regist(name,email,"15542339529",address,"2018");
                     Message msg = new Message();
                     msg.what = r;
-                    mHandler.sendMessage(msg); // 向Handler发送消息,更新UI
+                    mHandler.sendMessage(msg); // 向Handler发送消息,更新UI*/
                 }
             }).start();
 

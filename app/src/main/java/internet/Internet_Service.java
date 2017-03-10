@@ -23,7 +23,8 @@ public class Internet_Service {
         final String msg =s;
         new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
                 internet.sendMessage(msg);
             }
         }).start();

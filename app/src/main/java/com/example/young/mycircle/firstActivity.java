@@ -23,6 +23,7 @@ import client.phone_information;
 import java.util.Map;
 
 import client.client;
+import myuntil.myMessage;
 
 /**
  * Created by Young on 2016/10/29.
@@ -36,9 +37,38 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
     private String email_value="";
     private String phone_number="";
     private Context context;
-    private Handler mHandler = new Handler(){
-        public void handleMessage(Message msg) {
-            datil_String d = new datil_String();
+    private Handler mHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
+            Bundle b = msg.getData();
+            String message = b.getString("message");
+            myMessage get_message = new myMessage(message);
+            String[] order = get_message.decodeMessage();
+            if (order[0].equals("2"))
+            {
+                if(order[1].equals("1"))   // 登陆成功
+                {
+                    if(remember_password==1)  // 记住密码
+                    {
+
+                    }
+                    Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(firstActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if (order[1].equals("-1"))  //登陆失败
+                {
+                    Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_SHORT).show();
+                }
+                else if (order[1].equals(""))
+                {
+
+                }
+            }
+
+            /*datil_String d = new datil_String();
             if (Result==null||Result.equals("")||Result.equals("-1"))
             {
                 Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_SHORT).show();
@@ -113,7 +143,7 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                     m.what = 1;
                     mHandler.sendMessage(m);
                 }
-            }
+            }*/
         };
     };
 

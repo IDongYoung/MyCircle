@@ -28,18 +28,20 @@ public class Internet_Handler extends IoHandlerAdapter
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception
     {
+        Log.v("Internet_Handler","get something");
         String msg = message.toString();
+        Log.v("Internet_Handler",msg);
+        Message m = new Message();
         Bundle b = new Bundle();
         b.putString("message",msg);
-        Message m = new Message();
-        m.what = 2;
         m.setData(b);
         myhandler.sendMessage(m);
     }
     public void sendMessage(String s)
     {
+        while (mysession == null);
         mysession.write(s);
-        Log.v("myhandler","发送消息" + s + "\"给服务端成功");
+        Log.v("Internet","发送消息" + s + "\"给服务端成功");
     }
     @Override
     public void exceptionCaught(IoSession session, Throwable cause)
