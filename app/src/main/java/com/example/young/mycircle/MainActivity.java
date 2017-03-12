@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.logout)         // 退出
         {
-            SharedPreferences mySharedPreferences= getSharedPreferences("test", Activity.MODE_PRIVATE);
+            SharedPreferences mySharedPreferences= getSharedPreferences("information", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = mySharedPreferences.edit();
             editor.putInt("log_in_self",0);
             editor.commit();
