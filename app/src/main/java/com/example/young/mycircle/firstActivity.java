@@ -43,6 +43,7 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                     {
                         Log.v("first",message);
                         SharedPreferences mySharedPreferences = getSharedPreferences("information", Activity.MODE_PRIVATE);
+                        int pre_id = mySharedPreferences.getInt("id",-1);
                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                         editor.putInt("id", Integer.parseInt(order[2]));
                         editor.putString("name", order[3]);
@@ -52,10 +53,16 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                         editor.putString("adddress", order[7]);
                         editor.putInt("log_in_self", log_in_self);
                         editor.putInt("remember_password", remember_password);
+                        if (pre_id==Integer.parseInt(order[2]))
+                            editor.putInt("pre_next",1);
+                        else
+                            editor.putInt("pre_next",-1);
                         //editor.putString("IMSINumber",IMSINumber);
                         editor.commit(); //提交当前数据
                     }
                     Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
+                    Intent uploadservice = new Intent(firstActivity.this, upLoadService.class);
+                    startService(uploadservice);
                     Intent intent = new Intent(firstActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

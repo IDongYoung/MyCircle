@@ -121,8 +121,10 @@ public class client {
 
         return 1;
     }
-
-
+    public void uploaddata(String id,String password)
+    {
+        iService.send("19|"+id+"|"+password);
+    }
 
     public static void main (String[] avg)
     {

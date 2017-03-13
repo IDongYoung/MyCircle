@@ -26,6 +26,5 @@ public class userActivity extends Activity
         userAdapter useradapter = new userAdapter(this,u);
         ListView listview = (ListView) this.findViewById(R.id.user_listview);
         listview.setAdapter(useradapter);
-
     }
 }

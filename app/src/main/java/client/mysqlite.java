@@ -38,7 +38,7 @@ public class mysqlite extends SQLiteOpenHelper
                      "                        primary key (user_id,class_id));";
         sqLiteDatabase.execSQL(sql);
 
-        sqLiteDatabase.execSQL("insert into user values(1,'li1','417020264@qq.com','15542339529','beijing','2016-10-31');");
+        /*sqLiteDatabase.execSQL("insert into user values(1,'li1','417020264@qq.com','15542339529','beijing','2016-10-31');");
         sqLiteDatabase.execSQL("insert into user values(2,'li2','417020264@qq.com','15542339529','beijing','2016-10-31');");
         sqLiteDatabase.execSQL("insert into user values(3,'li3','417020264@qq.com','15542339529','beijing','2016-10-31');");
         sqLiteDatabase.execSQL("insert into user values(4,'li4','417020264@qq.com','15542339529','beijing','2016-10-31');");
@@ -64,7 +64,7 @@ public class mysqlite extends SQLiteOpenHelper
         sqLiteDatabase.execSQL("insert into class_user values(5,4,'hello');");
         sqLiteDatabase.execSQL("insert into class_user values(1,4,'hello');");
         sqLiteDatabase.execSQL("insert into class_user values(1,5,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(1,6,'hello');");
+        sqLiteDatabase.execSQL("insert into class_user values(1,6,'hello');");*/
     }
     public myclass[] getAllDataByUserId(int id)
     {
@@ -121,6 +121,30 @@ public class mysqlite extends SQLiteOpenHelper
             }
         }
         return r;
+    }
+    public void adduser(String id,String name,String email,String phone,String address,String date)
+    {
+        String sql = "insert into user values("+id+",'"+name+"','"+email+"','"+phone+"','"+address+"','"+date+"');";
+        this.getWritableDatabase().execSQL(sql);
+    }
+    public void addclass(String id,String user_id,String name,String information,String date)
+    {
+        String sql = "insert into classes values("+id+","+user_id+",'"+name+"','"+information+"','"+date+"');";
+        this.getWritableDatabase().execSQL(sql);
+    }
+    public void addclass_user(String user_id,String class_id,String an_name)
+    {
+        String sql = "insert into class_user values("+user_id+","+class_id+",'"+an_name+"');";
+        this.getWritableDatabase().execSQL(sql);
+    }
+    public void cleanall()
+    {
+        String sql = "delete from user;";
+        this.getWritableDatabase().execSQL(sql);
+        sql = "delete from classes;";
+        this.getWritableDatabase().execSQL(sql);
+        sql = "delete from class_user;";
+        this.getWritableDatabase().execSQL(sql);
     }
 
     public void closemysqlite()

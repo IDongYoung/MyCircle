@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity
         /*******************************************************************************/
         ListView listview = (ListView) this.findViewById(R.id.listview);
         mysqlite mysql = new mysqlite(this);
-        test = mysql.getAllDataByUserId(1);
+        SharedPreferences sharedpreferences = getSharedPreferences("information", Activity.MODE_PRIVATE);
+        int id = sharedpreferences.getInt("id",-1);
+        test = mysql.getAllDataByUserId(id);
         myAdapter my = new myAdapter(this,test);
         listview.setAdapter(my);
         listview.setOnItemClickListener(this);
