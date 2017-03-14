@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.young.mycircle">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,15 +18,30 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".signinActivity"></activity>
-        <activity android:name=".userActivity"></activity>
+        <activity android:name=".signinActivity" />
+        <activity android:name=".userActivity" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <service android:name=".upLoadService"></service>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service android:name=".upLoadService" />
+
+        <receiver android:name=".myBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <action android:name="upload_classes" />
+                <action android:name="upload_users" />
+
+                <data android:scheme="file" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".createClassActivity"></activity>
     </application>
 
 </manifest>

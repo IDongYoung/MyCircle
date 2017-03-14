@@ -72,6 +72,9 @@ public class upLoadService extends Service
                     }
                     my.close();
                     Toast.makeText(getApplicationContext(), "更新成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new  Intent();  // 发送广播更新组件
+                    intent.setAction("upload");
+                    sendBroadcast(intent);
                 }
                 else                    // 失败
                 {

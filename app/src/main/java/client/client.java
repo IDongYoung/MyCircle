@@ -28,7 +28,7 @@ public class client {
     // 创建班级
     public int create_class(String user_id,String password,String class_name,String information,String date)
     {
-
+        iService.send("3|"+user_id+"|"+password+"|"+class_name+"|"+information+"|"+date);
         return 1;
     }
     //搜索班级    参数(user_id password class_number) 返回值:-1（不存在）("name|the_value|creater_name|the_value"(名称),(创建者名字));
@@ -124,6 +124,10 @@ public class client {
     public void uploaddata(String id,String password)
     {
         iService.send("19|"+id+"|"+password);
+    }
+    public void updataPhone(String id,String password,String phone)
+    {
+        iService.send("20|"+id+"|"+password+"|"+phone);
     }
 
     public static void main (String[] avg)

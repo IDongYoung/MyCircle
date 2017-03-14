@@ -1,10 +1,17 @@
 package client;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.young.mycircle.R;
@@ -12,14 +19,16 @@ import com.example.young.mycircle.R;
 /**
  * Created by Young on 2016/10/31.
  */
-public class userAdapter extends BaseAdapter {
+public class userAdapter extends BaseAdapter{
 
     private Context context;
     private user[] users;
-    public userAdapter(Context c,user[] u)
+    private Handler myHandler;
+    public userAdapter(Context c, user[] u, Handler my)
     {
         context = c;
         users = u;
+        myHandler = my;
     }
     @Override
     public int getCount() {
@@ -44,6 +53,21 @@ public class userAdapter extends BaseAdapter {
         View v = inflater.inflate(R.layout.useritem,null);
         TextView textview = (TextView) v.findViewById(R.id.user_name);
         textview.setText(users[i].name);
+        Button phone = (Button) v.findViewById(R.id.phone);
+        phone.setId(i);
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                int id = view.getId();
+                Bundle b = new Bundle();
+                b.putString("phone_number",users[id].phone);
+                Message m = new Message();
+                m.what=0;
+                m.setData(b);
+                myHandler.sendMessage(m);
+            }
+        });
         return v;
     }
 }

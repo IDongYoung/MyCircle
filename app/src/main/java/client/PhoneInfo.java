@@ -14,8 +14,8 @@ public class PhoneInfo {
      */
     private String IMSI;
     private Context cxt;
-    public String imsi = "no imsi";
-    public String pnum = "no phone number";
+    public String imsi = "no_imsi";
+    public String pnum = "no_phone_number";
     public PhoneInfo(Context context) {
         cxt=context;
         telephonyManager = (TelephonyManager) context
@@ -31,7 +31,11 @@ public class PhoneInfo {
         {
             String temp=telephonyManager.getLine1Number();
             if(temp != null && !temp.equals("")) NativePhoneNumber = temp;
-        }catch (Exception e) { }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return NativePhoneNumber;
+        }
         return NativePhoneNumber;
     }
 
