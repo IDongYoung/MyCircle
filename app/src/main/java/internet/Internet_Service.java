@@ -6,11 +6,11 @@ import android.os.Handler;
  * Created by Young on 2017/3/10.
  */
 public class Internet_Service {
-    private Internet_Handler internet = new Internet_Handler();
+    private static Internet_Handler internet = new Internet_Handler();
     public Internet_Service(Handler h)
     {
-        Internet_Connect.setHandler(internet);
         internet.setHandler(h);
+        Internet_Connect.setHandler(internet);
         new Thread(new Runnable() {
             @Override
             public void run() {

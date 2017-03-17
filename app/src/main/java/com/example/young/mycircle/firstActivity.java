@@ -1,12 +1,15 @@
 package com.example.young.mycircle;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -16,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
-import client.client;
+
 import myuntil.myMessage;
 import client.PhoneInfo;
 /**
@@ -29,6 +32,23 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
     private String password_value = "";
     private String email_value="";
     private Context context = this;
+    private upLoadService iService;
+    private ServiceConnection con = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            Log.v("firstActivity","绑定成功");
+            upLoadService.myBinder mybinder = (upLoadService.myBinder) iBinder;
+            iService = mybinder.getService();
+            iService.addHandler("first",mHandler);
+            Log.v("firstActivity","链接成功");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
+
     private Handler mHandler = new Handler()
     {
         public void handleMessage(Message msg)
@@ -37,7 +57,8 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
             String message = b.getString("message");
             myMessage get_message = new myMessage(message);
             String[] order = get_message.decodeMessage();
-            if (order[0].equals("2")) {
+            if (order[0].equals("2"))     // 关于登陆的回应
+            {
                 if (order[1].equals("1"))   // 登陆成功
                 {
                     SharedPreferences mySharedPreferences = getSharedPreferences("information", Activity.MODE_PRIVATE);
@@ -64,6 +85,7 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                         editor.commit(); //提交当前数据
                     }
                     Toast.makeText(getApplicationContext(), "登陆成功", Toast.LENGTH_SHORT).show();
+                    iService.showMyId();
                     PhoneInfo myphone = new PhoneInfo(context);
                     String IMSI = myphone.getIMSINumber();
                     String pre_IMSI = mySharedPreferences.getString("IMSI","");
@@ -88,32 +110,25 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                                         public void onClick(DialogInterface dialog, int which)
                                         {
                                             String my_phone = editText.getText().toString();
-                                            client c = new client(mHandler);
-                                            c.updataPhone(id,ps,my_phone);
-                                            Intent upload_service = new Intent(firstActivity.this, upLoadService.class);
-                                            startService(upload_service);
+                                            iService.updataPhone(id,ps,my_phone);
                                             Intent intent = new Intent(firstActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
                                     }).show();
                         }
-                        else
+                        else                     // 可自动获取号码
                         {
-                            client c = new client(mHandler);
-                            c.updataPhone(id,ps,phone_number);
-                            Intent upload_service = new Intent(firstActivity.this, upLoadService.class);
-                            startService(upload_service);
+                            iService.updataPhone(id,ps,phone_number);
                             Intent intent = new Intent(firstActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
-
+                        iService.uploaddata(false);
                     }
-                    else
+                    else            // 没有更换号码
                     {
-                        Intent upload_service = new Intent(firstActivity.this, upLoadService.class);
-                        startService(upload_service);
+                        iService.uploaddata(false);
                         Intent intent = new Intent(firstActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -122,10 +137,6 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                 else if (order[1].equals("-1"))  //登陆失败
                 {
                     Toast.makeText(getApplicationContext(), "登陆失败", Toast.LENGTH_SHORT).show();
-                }
-                else if (order[1].equals(""))
-                {
-
                 }
             }
             else if (order[0].equals("20"))
@@ -146,6 +157,9 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
+        Intent intent = new Intent(firstActivity.this,upLoadService.class);
+        bindService(intent,con,BIND_AUTO_CREATE);         // 绑定服务
+
         SharedPreferences sharedpreferences = getSharedPreferences("information", Activity.MODE_PRIVATE);
         if (sharedpreferences.getInt("id",-1)!=-1                         // 非第一次登录
                 &&sharedpreferences.getInt("remember_password",-1)==1     // 记住了密码
@@ -154,8 +168,7 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
 
             email_value = sharedpreferences.getString("email", "");
             password_value = sharedpreferences.getString("password", "");
-            client c = new client(mHandler);
-            c.login(email_value, password_value);
+            iService.login(email_value,password_value);
         }
         else
         {
@@ -197,8 +210,7 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
             EditText password = (EditText) this.findViewById(R.id.edit_password);
             password_value = password.getText().toString();
             email_value = user_name.getText().toString();
-            client c = new client(mHandler);
-            c.login(email_value,password_value);
+            iService.login(email_value,password_value);
         }
     }
 
@@ -232,5 +244,11 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
                 log_in_self = 0;
             }
         }
+    }
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        unbindService(con);         // 解除绑定服务
     }
 }

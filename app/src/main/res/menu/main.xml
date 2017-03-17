@@ -11,4 +11,9 @@
         android:orderInCategory="100"
         android:title="@string/searchClass"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/waitMeAgree"
+        android:orderInCategory="100"
+        android:title="@string/wait_me_agree"
+        app:showAsAction="never" />
 </menu>

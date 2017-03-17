@@ -1,7 +1,6 @@
 package com.example.young.mycircle;
 
 import android.app.Activity;
-import client.client;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

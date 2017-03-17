@@ -37,6 +37,11 @@ public class mysqlite extends SQLiteOpenHelper
                      "                        an_name varchar(100)," +
                      "                        primary key (user_id,class_id));";
         sqLiteDatabase.execSQL(sql);
+                sql = "create table class_user_temp(user_id int," +
+                     "                        class_id int," +
+                     "                        an_name varchar(100)," +
+                     "                        primary key (user_id,class_id));";
+        sqLiteDatabase.execSQL(sql);
 
         /*sqLiteDatabase.execSQL("insert into user values(1,'li1','417020264@qq.com','15542339529','beijing','2016-10-31');");
         sqLiteDatabase.execSQL("insert into user values(2,'li2','417020264@qq.com','15542339529','beijing','2016-10-31');");
@@ -122,19 +127,66 @@ public class mysqlite extends SQLiteOpenHelper
         }
         return r;
     }
+    public waitagree[] getAllWaitMe()
+    {
+        waitagree[] w=null;
+        int num = 0;
+        String sql = "select count(*) from class_user_temp cut,classes c,user u where cut.user_id = u.id and cut.class_id = c.id;";
+        Cursor c = this.getReadableDatabase().rawQuery(sql,null);
+        if (c.moveToNext()) num = c.getInt(0);
+        if (num!=0)
+        {
+            w = new waitagree[num];
+            int i=0;
+            sql = "select u.id,u.name,c.id,c.name from class_user_temp cut,classes c,user u " +
+                    "where cut.user_id = u.id and cut.class_id = c.id;";
+            c = this.getReadableDatabase().rawQuery(sql,null);
+            while(c.moveToNext())
+            {
+                w[i] = new waitagree();
+                w[i].user_id = c.getInt(0)+"";
+                w[i].user_name = c.getString(1);
+                w[i].class_id = c.getInt(2)+"";
+                w[i++].class_name = c.getString(3);
+            }
+        }
+        return w;
+    }
     public void adduser(String id,String name,String email,String phone,String address,String date)
     {
+        String sql1 = "select * from user where id = "+id+";";
+        Cursor c = this.getWritableDatabase().rawQuery(sql1,null);
+        if(c.moveToNext()) return;
         String sql = "insert into user values("+id+",'"+name+"','"+email+"','"+phone+"','"+address+"','"+date+"');";
         this.getWritableDatabase().execSQL(sql);
     }
     public void addclass(String id,String user_id,String name,String information,String date)
     {
+        String sql1 = "select * from classes where id = "+id+";";
+        Cursor c = this.getWritableDatabase().rawQuery(sql1,null);
+        if(c.moveToNext()) return;
         String sql = "insert into classes values("+id+","+user_id+",'"+name+"','"+information+"','"+date+"');";
         this.getWritableDatabase().execSQL(sql);
     }
     public void addclass_user(String user_id,String class_id,String an_name)
     {
+        String sql1 = "select * from class_user where user_id = "+user_id+" and class_id = "+class_id+";";
+        Cursor c = this.getWritableDatabase().rawQuery(sql1,null);
+        if(c.moveToNext()) return;
         String sql = "insert into class_user values("+user_id+","+class_id+",'"+an_name+"');";
+        this.getWritableDatabase().execSQL(sql);
+    }
+    public void addclass_user_temp(String user_id,String class_id,String an_name)
+    {
+        String sql1 = "select * from class_user_temp where user_id = "+user_id+" and class_id = "+class_id+";";
+        Cursor c = this.getWritableDatabase().rawQuery(sql1,null);
+        if(c.moveToNext()) return;
+        String sql = "insert into class_user_temp values("+user_id+","+class_id+",'"+an_name+"');";
+        this.getWritableDatabase().execSQL(sql);
+    }
+    public void delete_class_user_temp(String user_id,String class_id)
+    {
+        String sql = "delete from class_user_temp where user_id = "+user_id+" and class_id = "+class_id+";";
         this.getWritableDatabase().execSQL(sql);
     }
     public void cleanall()

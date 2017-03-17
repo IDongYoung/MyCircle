@@ -16,10 +16,14 @@
     <string name="phone">电话</string>
     <string name="createClass">创建班级</string>
     <string name="searchClass">搜索班级</string>
+    <string name="wait_me_agree">待我批准</string>
     <string name="joinClass">加入班级</string>
     <string name="exitClass">退出班级</string>
     <string name="agreeJoin">同意加入</string>
     <string name="className">*班级名称</string>
     <string name="classInformation">*班级信息</string>
+    <string name="search_class_name">班级名称：</string>
+    <string name="search_user_name">创建人名：</string>
+    <string name="no_this_class">查无此班</string>
 
 </resources>

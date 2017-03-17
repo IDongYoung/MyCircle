@@ -95,9 +95,7 @@ public class MainActivity extends AppCompatActivity
         myAdapter my = new myAdapter(this,test);
         listview.setAdapter(my);
         listview.setOnItemClickListener(this);
-
         /*******************************************************************************/
-
     }
 
     @Override
@@ -133,9 +131,16 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.searchClass) // 搜索班级
         {
+            Intent intent = new Intent(MainActivity.this,searchClassActivity.class);
+            startActivity(intent);
             return true;
         }
-
+        else if (id == R.id.waitMeAgree) // 待我批准
+        {
+            Intent intent = new Intent(MainActivity.this,waitMeAgree.class);
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

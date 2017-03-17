@@ -21,6 +21,5 @@ public class myBroadcastReceiver extends BroadcastReceiver
         {
 
         }
-
     }
 }

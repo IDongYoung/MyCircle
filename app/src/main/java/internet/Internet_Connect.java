@@ -14,8 +14,8 @@ import java.nio.charset.Charset;
  * Created by Young on 2017/3/10.
  */
 public class Internet_Connect {
-    private static final int PORT = 8888;
-    private static final String HOSTNAME = "115.159.124.98";
+    public static final int PORT = 8888;
+    public static final String HOSTNAME = "115.159.124.98";
     private static Internet_Handler client;
     public static final void setHandler(Internet_Handler c)
     {

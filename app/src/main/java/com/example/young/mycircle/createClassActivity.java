@@ -1,10 +1,13 @@
 package com.example.young.mycircle;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +19,6 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import client.client;
 import client.mysqlite;
 import myuntil.myMessage;
 
@@ -29,6 +31,22 @@ public class createClassActivity extends AppCompatActivity implements View.OnCli
     private String information_value="";
     private String str="";
     private String an_name="";
+
+    private upLoadService iService;
+    private ServiceConnection con = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            upLoadService.myBinder mybinder = (upLoadService.myBinder) iBinder;
+            iService = mybinder.getService();
+            iService.addHandler("createClass",myHandle);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
+
     private Handler myHandle = new Handler()
     {
         @Override
@@ -42,11 +60,6 @@ public class createClassActivity extends AppCompatActivity implements View.OnCli
             {
                 if (order[1].equals("1"))  // 创建成功
                 {
-                    Toast.makeText(getApplicationContext(), "创建成功", Toast.LENGTH_SHORT).show();
-                    mysqlite my = new mysqlite(context);
-                    my.addclass(order[2],id,name_value,information_value,str);
-                    my.addclass_user(id,order[2],an_name);
-                    my.close();
                     Intent intent = new  Intent();  // 发送广播更新组件
                     intent.setAction("upload");
                     sendBroadcast(intent);
@@ -60,11 +73,14 @@ public class createClassActivity extends AppCompatActivity implements View.OnCli
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_class);
+
+        Intent intent = new Intent(createClassActivity.this,upLoadService.class);
+        bindService(intent,con,BIND_AUTO_CREATE);         // 绑定服务
+
         Button ok = (Button) this.findViewById(R.id.create_class_ok);
         ok.setOnClickListener(this);
     }
@@ -89,8 +105,13 @@ public class createClassActivity extends AppCompatActivity implements View.OnCli
             id = mySharedPreferences.getInt("id",-1)+"";
             an_name = mySharedPreferences.getString("name","")+"";
             psd = mySharedPreferences.getString("password","");
-            client c = new client(myHandle);
-            c.create_class(id,psd,name_value,information_value,str);
+            iService.create_class(id,psd,name_value,information_value,str);
         }
+    }
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        unbindService(con);
     }
 }

@@ -41,7 +41,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".createClassActivity"></activity>
+        <activity android:name=".createClassActivity" />
+        <activity android:name=".searchClassActivity" />
+        <activity android:name=".waitMeAgree"></activity>
     </application>
 
 </manifest>
