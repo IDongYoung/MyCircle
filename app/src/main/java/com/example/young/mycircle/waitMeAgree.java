@@ -105,4 +105,10 @@ public class waitMeAgree extends AppCompatActivity {
         listview = (ListView) this.findViewById(R.id.waitMeAgree_list_view);
         listview.setAdapter(wadapter);
     }
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        unbindService(con);
+    }
 }

@@ -32,6 +32,7 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
     private String password_value = "";
     private String email_value="";
     private Context context = this;
+    private boolean login=false;
     private upLoadService iService;
     private ServiceConnection con = new ServiceConnection() {
         @Override
@@ -40,6 +41,8 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
             upLoadService.myBinder mybinder = (upLoadService.myBinder) iBinder;
             iService = mybinder.getService();
             iService.addHandler("first",mHandler);
+            if (login) iService.login(email_value,password_value);
+            login = false;
             Log.v("firstActivity","链接成功");
         }
 
@@ -168,7 +171,8 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
 
             email_value = sharedpreferences.getString("email", "");
             password_value = sharedpreferences.getString("password", "");
-            iService.login(email_value,password_value);
+            if (iService == null) login = true;
+            else iService.login(email_value,password_value);
         }
         else
         {
@@ -210,7 +214,8 @@ public class firstActivity extends Activity implements View.OnClickListener,Comp
             EditText password = (EditText) this.findViewById(R.id.edit_password);
             password_value = password.getText().toString();
             email_value = user_name.getText().toString();
-            iService.login(email_value,password_value);
+            if (iService == null) login = true;
+            else iService.login(email_value,password_value);
         }
     }
 

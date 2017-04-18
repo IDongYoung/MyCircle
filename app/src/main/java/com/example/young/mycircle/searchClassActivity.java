@@ -77,9 +77,22 @@ public class searchClassActivity extends AppCompatActivity {
             }
             else if (order[0].equals("5"))
             {
-
+                if (order[1].equals("1"))    // 成功
+                {
+                    String str = "申请成功";
+                    Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+                }
+                else if (order[1].equals("2"))  // 已在该班级
+                {
+                    String str = "您已在该班级";
+                    Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+                }
+                else if (order[1].equals("3"))    // 已申请
+                {
+                    String str = "您已经申请";
+                    Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+                }
             }
-
         }
     };
     @Override

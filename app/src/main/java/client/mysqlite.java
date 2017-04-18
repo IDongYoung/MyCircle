@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import myuntil.myMessage;
+
 /**
  * Created by Young on 2016/10/31.
  */
@@ -188,6 +190,30 @@ public class mysqlite extends SQLiteOpenHelper
     {
         String sql = "delete from class_user_temp where user_id = "+user_id+" and class_id = "+class_id+";";
         this.getWritableDatabase().execSQL(sql);
+    }
+    public void update_phone(String id,String phone)
+    {
+        String sql = "update user set phone = '"+phone+"' where id = "+id+";";
+        this.getWritableDatabase().execSQL(sql);
+    }
+    public String getClassInformation(String id)
+    {
+        String sql = "select u.name,c.name,c.information,c.date from classes c,user u " +
+                     " where c.user_id=u.id and c.id = "+id+";";
+        Cursor c = this.getReadableDatabase().rawQuery(sql,null);
+        if(c.moveToNext())
+        {
+            String[] s = new String[4];
+            s[0] = c.getString(0);
+            s[1] = c.getString(1);
+            s[2] = c.getString(2);
+            s[3] = c.getString(3);
+            myMessage my = new myMessage(s);
+            String r = my.codeMessage();
+            Log.v("mysqlite",r);
+            return r;
+        }
+        return -1+"";
     }
     public void cleanall()
     {

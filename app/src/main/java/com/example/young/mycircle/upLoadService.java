@@ -38,7 +38,10 @@ public class upLoadService extends Service
             String[] order = get_message.decodeMessage();
             if (order[0].equals("1"))            // 注册的回应
             {
-
+                Message m =new Message();
+                m.setData(b);
+                Handler h = AllHandler.get("signin");
+                if (h!=null) h.sendMessage(m);
             }
             else if (order[0].equals("2"))       // 登陆的回应
             {
@@ -133,8 +136,17 @@ public class upLoadService extends Service
             {
 
             }
-            else if (order[0].equals("2"))
+            else if (order[0].equals("26"))    // 遇到好友跟新号码
             {
+                String the_id = order[1];
+                String the_phone = order[2];
+                mysqlite my = new mysqlite(mycontext);
+                my.update_phone(the_id,the_phone);
+                Message m =new Message();
+                m.setData(b);
+                Handler h = AllHandler.get("user"); //
+                if (h!=null) h.sendMessage(m);
+                Toast.makeText(getApplicationContext(), order[1]+"更新号码为："+order[2], Toast.LENGTH_SHORT).show();
 
             }
             else if (order[0].equals("25"))    // 被同意加入

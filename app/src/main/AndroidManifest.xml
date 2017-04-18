@@ -43,7 +43,11 @@
 
         <activity android:name=".createClassActivity" />
         <activity android:name=".searchClassActivity" />
-        <activity android:name=".waitMeAgree"></activity>
+        <activity android:name=".waitMeAgree" />
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".ChatActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+        </activity>
     </application>
 
 </manifest>
