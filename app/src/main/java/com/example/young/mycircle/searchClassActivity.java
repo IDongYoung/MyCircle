@@ -92,6 +92,7 @@ public class searchClassActivity extends AppCompatActivity {
                     String str = "您已经申请";
                     Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
                 }
+                finish();
             }
         }
     };
