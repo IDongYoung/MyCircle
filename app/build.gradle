@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.example.young.mycircle"
@@ -34,6 +34,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile files('libs/mina-core-2.0.16.jar')
     compile files('libs/mina-filter-compression-2.0.16.jar')
     compile files('libs/mina-transport-apr-2.0.16.jar')

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
+import client.my_information;
 import internet.Internet_Service;
 import myuntil.myMessage;
 import client.mysqlite;
@@ -34,7 +35,6 @@ public class upLoadService extends Service
             Bundle b = msg.getData();
             String message = b.getString("message");
             myMessage get_message = new myMessage(message);
-            Log.v("upload",message);
             String[] order = get_message.decodeMessage();
             if (order[0].equals("1"))            // 注册的回应
             {
@@ -62,6 +62,8 @@ public class upLoadService extends Service
                     mysqlite my = new mysqlite(mycontext);
                     my.addclass(order[2],order[3],order[4],order[5],order[6]);
                     my.addclass_user(order[3],order[2],order[7]);
+                    my_information mi = new my_information(mycontext);
+                    my.adduser(mi.getID(),mi.getName(),mi.getEmail(),mi.getPhone(),mi.getAddress(),mi.getDate());
                     my.close();
                 }
 
@@ -132,8 +134,21 @@ public class upLoadService extends Service
             {
 
             }
-            else if (order[0].equals("2"))
+            else if (order[0].equals("28"))   // 获取chat消息
             {
+                String send_id = order[1];
+                String the_class = order[2];
+                String the_msg = order[3];
+
+                mysqlite my = new mysqlite(mycontext);
+                my.put_chat_message(send_id,the_class,the_msg);
+                my.close();
+
+                Handler h = AllHandler.get("chat"); //
+                Message m =new Message();
+                m.setData(b);
+                if (h!=null) h.sendMessage(m);
+                Toast.makeText(getApplicationContext(),"获得新的聊天信息", Toast.LENGTH_SHORT).show();
 
             }
             else if (order[0].equals("26"))    // 遇到好友跟新号码
@@ -256,7 +271,7 @@ public class upLoadService extends Service
         }
     };
 
-    private Internet_Service iService = new Internet_Service(my);
+    private Internet_Service iService = new Internet_Service(my,mycontext);
     public class myBinder extends Binder
     {
         public upLoadService getService()
@@ -281,7 +296,7 @@ public class upLoadService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         Log.v("uploadService","服务开始");
-        return 1;
+        return Service.START_STICKY;
     }
     public void addHandler(String name,Handler h)
     {
@@ -394,6 +409,11 @@ public class upLoadService extends Service
 
         return 1;
     }
+    public int chat(String user_id,String password,String the_class,String str)
+    {
+        iService.send("27|"+user_id+"|"+password+"|"+the_class+"|"+str+"|");
+        return 1;
+    }
     public void uploaddata(boolean flag)
     {
         SharedPreferences sharedpreferences = getSharedPreferences("information", Activity.MODE_PRIVATE);
@@ -416,8 +436,6 @@ public class upLoadService extends Service
     {
         iService.send("24|"+id+"|"+password);
     }
-
-
     @Override
     public void onDestroy()
     {

@@ -15,12 +15,13 @@ import java.nio.charset.Charset;
  */
 public class Internet_Connect {
     public static final int PORT = 8888;
-    public static final String HOSTNAME = "115.159.124.98";
+    public static final String HOSTNAME = "118.89.165.144";  // 115.159.124.98
     private static Internet_Handler client;
     public static final void setHandler(Internet_Handler c)
     {
         client=c;
     }
+
     public static final void connect()
     {
         NioSocketConnector connector = new NioSocketConnector();

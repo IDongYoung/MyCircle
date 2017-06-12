@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:id="@+id/lay_root"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.example.young.mycircle.ChatActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/chat_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="world"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/editviewlayout"
+        android:maxHeight="120dp"
+        android:minHeight="40dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/button" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="87dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/putdate_shape"
+        android:text="发送"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="555dp" />
+
+    <ScrollView
+        android:id="@+id/message_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="1dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
+            android:id="@+id/message_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_weight="9"
-                android:layout_height="match_parent">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="40dp"
-                    android:maxHeight="120dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="@drawable/putdate_shape"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_weight="2"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <Button
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right"
-                    android:background="@drawable/putdate_shape"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:text="发送"/>
-            </LinearLayout>
+            android:orientation="vertical">
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
 
-</LinearLayout>
+
+
+

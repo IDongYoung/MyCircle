@@ -1,5 +1,6 @@
 package internet;
 
+import android.content.Context;
 import android.os.Handler;
 
 /**
@@ -7,9 +8,10 @@ import android.os.Handler;
  */
 public class Internet_Service {
     private static Internet_Handler internet = new Internet_Handler();
-    public Internet_Service(Handler h)
+    public Internet_Service(Handler h,Context context)
     {
         internet.setHandler(h);
+        internet.setContext(context);
         Internet_Connect.setHandler(internet);
         new Thread(new Runnable() {
             @Override

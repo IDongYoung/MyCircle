@@ -6,47 +6,46 @@
     android:gravity="center">
     <TableLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:collapseColumns="*">
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name"/>
+        <TableRow
+            android:paddingBottom="@dimen/table">
             <EditText
                 android:id="@+id/edit_name"
                 android:layout_width="@dimen/signin"
-                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_height="40dp"
+                android:background="@drawable/editviewlayout"
+                android:hint="@string/name"
                 android:singleLine="true"/>
         </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email"/>
+        <TableRow
+            android:paddingBottom="@dimen/table">
             <EditText
                 android:id="@+id/edit_email"
                 android:layout_width="@dimen/signin"
-                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_height="40dp"
+                android:background="@drawable/editviewlayout"
+                android:hint="@string/email"
                 android:singleLine="true"/>
         </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address"/>
+        <TableRow
+            android:paddingBottom="@dimen/table">
             <EditText
                 android:id="@+id/edit_address"
                 android:layout_width="@dimen/signin"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:background="@drawable/editviewlayout"
+                android:hint="@string/address"
                 android:singleLine="true"/>
         </TableRow>
-        <TableRow>
-            <Button
-                android:id="@+id/button_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ok"/>
-        </TableRow>
     </TableLayout>
+    <Button
+        android:id="@+id/button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"/>
 </LinearLayout>

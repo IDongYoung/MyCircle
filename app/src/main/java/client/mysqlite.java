@@ -44,34 +44,10 @@ public class mysqlite extends SQLiteOpenHelper
                      "                        an_name varchar(100)," +
                      "                        primary key (user_id,class_id));";
         sqLiteDatabase.execSQL(sql);
-
-        /*sqLiteDatabase.execSQL("insert into user values(1,'li1','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(2,'li2','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(3,'li3','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(4,'li4','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(5,'li5','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(6,'li6','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(7,'li7','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(8,'li8','417020264@qq.com','15542339529','beijing','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into user values(9,'li9','417020264@qq.com','15542339529','beijing','2016-10-31');");
-
-        sqLiteDatabase.execSQL("insert into classes values(1,1,'1311','we edg lgd','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into classes values(2,1,'1312','we edg lgd','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into classes values(3,1,'1313','we edg lgd','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into classes values(4,1,'1314','we edg lgd','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into classes values(5,1,'1315','we edg lgd','2016-10-31');");
-        sqLiteDatabase.execSQL("insert into classes values(6,1,'1316','we edg lgd','2016-10-31');");
-
-        sqLiteDatabase.execSQL("insert into class_user values(1,1,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(1,2,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(1,3,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(2,2,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(3,4,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(4,4,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(5,4,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(1,4,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(1,5,'hello');");
-        sqLiteDatabase.execSQL("insert into class_user values(1,6,'hello');");*/
+                sql = "create table chat_with_me(user_id int," +
+                    "                        class_id int," +
+                    "                        message varchar(1000));";
+        sqLiteDatabase.execSQL(sql);
     }
     public myclass[] getAllDataByUserId(int id)
     {
@@ -223,6 +199,30 @@ public class mysqlite extends SQLiteOpenHelper
         this.getWritableDatabase().execSQL(sql);
         sql = "delete from class_user;";
         this.getWritableDatabase().execSQL(sql);
+        sql = "delete from chat_with_me";
+        this.getWritableDatabase().execSQL(sql);
+    }
+
+    public void put_chat_message(String u_id,String c_id,String msg)
+    {
+        String sql = "insert into chat_with_me values("+u_id+","+c_id+",'"+msg+"');";
+        this.getWritableDatabase().execSQL(sql);
+    }
+
+    public Cursor get_chat_message(String c_id)
+    {
+        String sql = "select c.user_id,u.an_name,c.message from chat_with_me c,class_user u " +
+                     " where c.user_id = u.user_id and c.class_id = u.class_id and c.class_id = '"+c_id+"';";
+        Cursor c = this.getReadableDatabase().rawQuery(sql,null);
+        return c;
+    }
+    public String getUserNameById(String id)
+    {
+        String name="";
+        String sql = "select name from user where id = "+id+";";
+        Cursor c = this.getReadableDatabase().rawQuery(sql,null);
+        if(c.moveToNext()) name = c.getString(0);
+        return name;
     }
 
     public void closemysqlite()

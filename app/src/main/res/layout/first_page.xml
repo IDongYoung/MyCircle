@@ -8,14 +8,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_name"/>
         <EditText
             android:id="@+id/edit_user_name"
             android:layout_width="@dimen/signin"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:hint="@string/user_name"
+            android:padding="5dp"
+            android:background="@drawable/editviewlayout"
             android:singleLine="true"/>
     </LinearLayout>
     <LinearLayout
@@ -23,14 +22,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/password"/>
         <EditText
             android:id="@+id/edit_password"
             android:layout_width="@dimen/signin"
-            android:layout_height="wrap_content"
+            android:password="true"
+            android:hint="@string/password"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:background="@drawable/editviewlayout"
             android:singleLine="true"/>
     </LinearLayout>
     <LinearLayout
